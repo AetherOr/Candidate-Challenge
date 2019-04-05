@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Candidate Challenge - Theodore Schoen</title>
+<style>
+	input{
+		text-align:center;
+	}
+
+</style>
+</head>
+
+<body>
+
+	<span>Consider the concatenation of the strings of all integers from <it>1</it> through </span>
+	<input type="text" id="maxNumber" placeholder="Set the maximum number for the string to include" value="123" name="maxNumber" min="1" max="9999999" step="1" size="6">
+	<span>, each having been spelled out in english.</span><br>
+	<span>Then the probability of randomly choosing the letter </span>
+	<input type="text" id="letterToLookup" placeholder="Enter a letter of the alphabet to find its probability." value="e" name="letterToLookup" required pattern="[A-Za-z]" size="1">
+	<span> from this string is</span>
+	<span id="probabilityDisplay"></span>
+	<span>.</span>
+<script>
+
+//For the sake of extensibility, this process can be as proliferate as necessary; simply add more 'number place' names to the numPlaceNames array, and they will automatically be availible to use (up to as much as the browser can handle).
+var numPlaceNames = ['ones', 'tens', 'hundreds', 'thousands', 'tenthousands', 'hundredthousands', 'millions'];
+
+// the intToWordTable object contains all the individual name-parts that will be combined when writing out each number
+var intToWordTable = {
+	// First, the special case of the 'teens' written out
+	teens: [ 'ten', 'eleven', 'tweleve', 'thirteen', 'forteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen' ],
+	// Now, for the rest
+	ones: [ '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' ],
+	tens: [ '', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety' ],
+};
+
+
+
+//Given each 'place number' from the numPlaceNames array, this lists out the relevant numbers (e.g. ['onehundred', 'twohundred', ..., 'ninehundred'] for the the hundreds place), and adds it as a property to intToWordTable
+function placementGenerator(numberPlace){
+	intToWordTable[numberPlace] = (intToWordTable.ones).map(i => i + numberPlace.slice(0,-1));
+}
+for (var i=2; i<numPlaceNames.length; i++) {
+	placementGenerator(numPlaceNames[i]);
+}
+
+
+
+//Given an integer, this creates an array out of its constituent numbers (e.g. 23 becomes [2,3])
+function intToArray(aNumber) {
+	return Array.from(aNumber.toString(), i => parseInt(i));
+}
+
+
+function convertInt(intToConvert) {
+	var intArray = intToArray(intToConvert);
+	var intString = ''
+	
+	// does the number include a 'teen' value? (they are a special case)
+	var teenModifier = 0;
+	var teenWords = '';
+	if (intArray.length>1 && intArray[intArray.length - 2] === 1) {
+		teenModifier = 2;
+		teenWords = intToWordTable.teens[intArray[intArray.length-1]];
+	}
+		
+	//if it does, then this for loop bypasses identifying the last two digits individually, and instead uses values from the 'teens' property of intToWordTable
+	for (var i = 0; i < intArray.length - teenModifier; i++) {
+		intString += intToWordTable[numPlaceNames[( (intArray.length-1) - i )]][intArray[i]];
+	}
+	intString += teenWords;
+	return intString;
+}
+
+
+
+//form with letter to find probability for -- an event listener is attatched to detect change in its form value
+var letterToLookup = document.getElementById("letterToLookup");
+//current letter to find probability for
+var currentLetter = letterToLookup.value;
+
+//on 'keydown', destroy currently existing single character in letterToLookup form
+letterToLookup.addEventListener(('keydown'), () => letterToLookup.value='');
+//on 'keyup' send new character to getProbability for processing
+letterToLookup.addEventListener(('keyup'), () => getProbability(letterToLookup.value));
+
+
+
+//form with maximum number to write out and use in this exercise -- an event listener is attatched to detect change in its form value
+var maxNumber = document.getElementById("maxNumber");
+//current maximum number
+var currentMax = maxNumber.value;
+
+//on 'keyup' send new maxNumber to updateFreqDist for processing, then update letterToLookup using new frequency distribution
+maxNumber.addEventListener('keyup', () => (updateFreqDist(maxNumber.value),getProbability(letterToLookup.value)));
+
+
+
+//combinedIntegerString will be the string of concatenated number-words, up to the maximum number
+var combinedIntegerString = '';
+
+//for each letter of the alphabet, alphabetObject will have a property containing the index array for all entries in combinedIntegerString that match the corresponding letter
+var alphabetObject;
+
+
+//now, concatenate the written versions of each integer from 1 to maxNumber (which is initially 123), and determine the distribution of the letters
+function updateFreqDist(maxNum) {  
+
+	//a small bit of data validation
+	var validNumber = maxNum? (maxNum).match(/\d+/)[0] : '';
+	currentMax = validNumber.length ? parseInt(validNumber) : currentMax;  
+	//update value
+	document.getElementById("maxNumber").value = currentMax;
+
+	//reset combinedIntegerString
+	combinedIntegerString = '';
+	//reset alphabetObject
+	alphabetObject = {
+		a: [],
+		b: [],
+		c: [],
+		d: [],
+		e: [],
+		f: [],
+		g: [],
+		h: [],
+		i: [],
+		j: [],
+		k: [],
+		l: [],
+		m: [],
+		n: [],
+		o: [],
+		p: [],
+		q: [],
+		r: [],
+		s: [],
+		t: [],
+		u: [],
+		v: [],
+		w: [],
+		x: [],
+		y: [],
+		z: []
+	};
+  
+  
+	//construct combined string
+	for (var i=1; i<=currentMax; i++) {
+		combinedIntegerString += convertInt(i);
+	}
+
+	//find indices for each letter
+	for (var i=0; i <combinedIntegerString.length; i++) {
+		alphabetObject[combinedIntegerString[i]].push(i);
+	}
+}
+
+//validates, updates, and reports the probability of a letter
+function getProbability(letter) {
+
+	//a small bit of data validation
+	var validLetter = letter&&letter.length ? (letter).match(/[a-zA-Z]+/) : '';
+	currentLetter = validLetter&&validLetter[0].length ? (validLetter[0].toLowerCase())[validLetter[0].length-1] : currentLetter;  
+	//update value
+	document.getElementById("letterToLookup").value = currentLetter;
+
+	//find and display probability
+	var text = (alphabetObject[currentLetter].length / combinedIntegerString.length);
+	document.getElementById("probabilityDisplay").innerHTML = text;
+}
+
+//populates page with initial information
+updateFreqDist(maxNumber.value);
+getProbability(letterToLookup.value);
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
