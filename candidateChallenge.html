@@ -67,17 +67,33 @@
 			margin-top: -75vh;
 			height: 75vh;
 			border-radius: 5vw 5vw 0 0;
-			padding: 2vw;
+			padding: 1.5vw 1.5vw 0 1.5vw;
 			border-top: 3px solid black;
 			border-left: 1px solid black;
 			border-right: 1px solid black;
+		}
+		
+		div#fullStringDiv{
+			width: 100%;
+			line-height: 1.2;
+			transition-property: line-height, width;
+			transition-duration: 3200ms, 4500ms;
+			transition-delay: 350ms, 1150ms;
+			-webkit-transition-property: line-height, width; /* Safari */
+			-webkit-transition-duration: 3200ms, 4500ms; /* Safari */
+			-webkit-transition-delay: 350ms, 1150ms; /* Safari */
 		}
 		
 		span#fullStringSpan{
 			word-break: break-all;
 			word-wrap: break-word;
 		}
-		*/ transition: 100ms all; */
+		
+		div#stringCoverDiv:hover + div#stringContentDiv div#fullStringDiv{
+			width:0px;
+			line-height:0;
+		}
+		
 	</style>
 </head>
 
@@ -103,7 +119,7 @@
 		<div id="thirdInnerDiv" class="innerDiv">
 			<div id="stringCoverDiv"></div>
 			<div id="stringContentDiv">
-				<span>Concatenation of integer Strings:<span><br>
+				<span>Concatenation of integer Strings:</span><br>
 				<div id="fullStringDiv">
 					<span id="fullStringSpan"></span>
 				</div>
