@@ -3,35 +3,82 @@
 
 <head>
 	<title>Candidate Challenge - Theodore Schoen</title>
-<style>
-	input,div{
-		text-align: center;
-		font-size: 12px;
-		font-size: calc(1rem + 1.5vmin);
-	}
-	
-	div.inputDiv{
-		display: inline;
-	}
-	
-	input{	
-		background: #e7f9f8;
-	}
-	input, #firstInnerDiv > span:first-child > span{
-		font-weight: bold;
-		color: #444444;
-	}
-	
-	input#maxNumber{
-		width: 3em;
-		min-width: 2em;
-	}
-	
-	input#letterToLookup{
-		width: 1em;
-	}
-
-</style>
+	<style>
+		input,div{
+			text-align: center;
+			font-size: 12px;
+			font-size: calc(1rem + 1.5vmin);
+		}
+		
+		div#mainDiv{
+			margin: 10vh;
+		}
+		
+		div.inputDiv{
+			display: inline;
+		}
+		
+		input{	
+			background: #e7f9f8;
+		}
+		input, #firstInnerDiv > span:first-child > span{
+			font-weight: bold;
+			color: #4f474f;
+		}
+		
+		input#maxNumber{
+			width: 3em;
+			min-width: 2em;
+		}
+		
+		input#letterToLookup{
+			width: 1em;
+		}
+		
+		div#probDisplayDiv{
+			border-radius: 3vh;
+			background: #feeaea;
+			margin: 2vh auto;
+			padding: 5vh 0vh;
+			width: 12em;
+			font-weight: bold;
+			color: #4f474f;
+		}
+		
+		div#thirdInnerDiv{
+			height: 75vh;
+			position: relative;
+			overflow: hidden;
+			margin: 0 auto;
+			width: 80vw;
+			max-width: 60rem;
+		}
+		
+		div#stringCoverDiv{
+			position: relative;
+			z-index: 2;
+			height: 75vh;
+			box-shadow: 0vh -20vh 10vh white inset;
+		}
+		
+		div#stringContentDiv{		
+			position: relative;
+			z-index: 1;
+			margin-top: -75vh;
+			height: 75vh;
+			border-radius: 5vw 5vw 0 0;
+			padding: 2vw;
+			border-top: 3px solid black;
+			border-left: 1px solid black;
+			border-right: 1px solid black;
+		}
+		
+		span#fullStringSpan{
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+		
+	</style>
 </head>
 
 <body>
@@ -41,7 +88,7 @@
 			<div id="numberInputDiv" class="inputDiv">
 				<input type="number" id="maxNumber" value="123" name="maxNumber" min="1" max="9999999" title="Please enter a positive integer less than 1,000,000." step="1">
 			</div>
-			<span>, each having been spelled out in english.</span><br><br>
+			<span>, each having been spelled out in english, as shown at the bottom.</span><br><br>
 		</div>
 		<div id="secondInnerDiv" class="innerDiv">
 			<span>Then the probability of randomly choosing the letter </span>
@@ -52,9 +99,16 @@
 		</div>
 		<div id="probDisplayDiv">
 			<span id="probDisplaySpan"></span>
-			<span>.</span>
 		</div>
-
+		<div id="thirdInnerDiv" class="innerDiv">
+			<div id="stringCoverDiv"></div>
+			<div id="stringContentDiv">
+				<span>Concatenation of integer Strings:<span><br>
+				<div id="fullStringDiv">
+					<span id="fullStringSpan"></span>
+				</div>
+			</div>
+		</div>
 	</div>
 <script>
 
@@ -114,7 +168,6 @@ function convertInt(intToConvert) {
 var letterToLookup = document.getElementById("letterToLookup");
 //current letter to find probability for
 var currentLetter = letterToLookup.value;
-
 //on 'keydown', destroy currently existing single character in letterToLookup form
 letterToLookup.addEventListener(('keydown'), () => letterToLookup.value='');
 //on 'keyup' send new character to getProbability for processing
@@ -126,7 +179,6 @@ letterToLookup.addEventListener(('keyup'), () => getProbability(letterToLookup.v
 var maxNumber = document.getElementById("maxNumber");
 //current maximum number
 var currentMax = maxNumber.value;
-
 //on 'keyup' send new maxNumber to updateFreqDist for processing, then update letterToLookup using new frequency distribution
 maxNumber.addEventListener('keyup', () => (updateFreqDist(maxNumber.value),getProbability(letterToLookup.value)));
 
@@ -190,6 +242,9 @@ function updateFreqDist(maxNum) {
 		combinedIntegerString += convertInt(i);
 	}
 
+	//update fullStringDiv with the new combinedIntegerString
+	document.getElementById("fullStringSpan").innerHTML = combinedIntegerString;
+	
 	//find indices for each letter
 	for (var i=0; i <combinedIntegerString.length; i++) {
 		alphabetObject[combinedIntegerString[i]].push(i);
