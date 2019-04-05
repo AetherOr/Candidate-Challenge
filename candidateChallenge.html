@@ -4,23 +4,58 @@
 <head>
 	<title>Candidate Challenge - Theodore Schoen</title>
 <style>
-	input{
-		text-align:center;
+	input,div{
+		text-align: center;
+		font-size: 12px;
+		font-size: calc(1rem + 1.5vmin);
+	}
+	
+	div.inputDiv{
+		display: inline;
+	}
+	
+	input{	
+		background: #e7f9f8;
+	}
+	input, #firstInnerDiv > span:first-child > span{
+		font-weight: bold;
+		color: #444444;
+	}
+	
+	input#maxNumber{
+		width: 3em;
+		min-width: 2em;
+	}
+	
+	input#letterToLookup{
+		width: 1em;
 	}
 
 </style>
 </head>
 
 <body>
+	<div id="mainDiv">
+		<div id="firstInnerDiv" class="innerDiv">
+			<span>Consider the concatenation of the strings of all integers from <span>1</span> through </span>
+			<div id="numberInputDiv" class="inputDiv">
+				<input type="number" id="maxNumber" value="123" name="maxNumber" min="1" max="9999999" title="Please enter a positive integer less than 1,000,000." step="1">
+			</div>
+			<span>, each having been spelled out in english.</span><br><br>
+		</div>
+		<div id="secondInnerDiv" class="innerDiv">
+			<span>Then the probability of randomly choosing the letter </span>
+			<div id="letterInput" class="inputDiv">
+				<input type="text" id="letterToLookup" value="e" name="letterToLookup" required pattern="[A-Za-z]" title="Please enter a letter.">
+			</div>
+			<span> from this string is</span><br><br>
+		</div>
+		<div id="probDisplayDiv">
+			<span id="probDisplaySpan"></span>
+			<span>.</span>
+		</div>
 
-	<span>Consider the concatenation of the strings of all integers from <it>1</it> through </span>
-	<input type="text" id="maxNumber" placeholder="Set the maximum number for the string to include" value="123" name="maxNumber" min="1" max="9999999" step="1" size="6">
-	<span>, each having been spelled out in english.</span><br>
-	<span>Then the probability of randomly choosing the letter </span>
-	<input type="text" id="letterToLookup" placeholder="Enter a letter of the alphabet to find its probability." value="e" name="letterToLookup" required pattern="[A-Za-z]" size="1">
-	<span> from this string is</span>
-	<span id="probabilityDisplay"></span>
-	<span>.</span>
+	</div>
 <script>
 
 //For the sake of extensibility, this process can be as proliferate as necessary; simply add more 'number place' names to the numPlaceNames array, and they will automatically be availible to use (up to as much as the browser can handle).
@@ -108,8 +143,12 @@ var alphabetObject;
 function updateFreqDist(maxNum) {  
 
 	//a small bit of data validation
-	var validNumber = maxNum? (maxNum).match(/\d+/)[0] : '';
-	currentMax = validNumber.length ? parseInt(validNumber) : currentMax;  
+	var validNumber = maxNum? (maxNum).match(/\d+/) : '';
+	currentMax = validNumber&&validNumber[0].length ? parseInt(validNumber[0]) : currentMax;  
+	
+	//update width of input box
+	document.getElementById("maxNumber").style.width = 'calc(' + (currentMax+'').length + 'em + 2px)';
+
 	//update value
 	document.getElementById("maxNumber").value = currentMax;
 
@@ -168,7 +207,7 @@ function getProbability(letter) {
 
 	//find and display probability
 	var text = (alphabetObject[currentLetter].length / combinedIntegerString.length);
-	document.getElementById("probabilityDisplay").innerHTML = text;
+	document.getElementById("probDisplaySpan").innerHTML = text;
 }
 
 //populates page with initial information
