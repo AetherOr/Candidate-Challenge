@@ -1,0 +1,119 @@
+input,div{
+	text-align: center;
+	font-size: 12px;
+	font-size: calc(1rem + 1.5vmin);
+}
+
+div#mainDiv{
+	margin: 10vh;
+}
+
+div.inputDiv{
+	display: inline;
+}
+
+input{	
+	background: #e7f9f8;
+}
+input, #firstInnerDiv > span:first-child > span{
+	font-weight: bold;
+	color: #4f474f;
+}
+
+input#maxNumber{
+	width: 3em;
+	min-width: 2em;
+}
+
+input#letterToLookup{
+	width: 1em;
+}
+
+div#probDisplayDiv{
+	border-radius: 3vh;
+	background: #feeaea;
+	margin: 2vh auto;
+	padding: 5vh 0vh;
+	width: 12em;
+	font-weight: bold;
+	color: #4f474f;
+}
+
+
+div#probDisplayDiv:hover{
+	color: #4f474f;
+	box-shadow: 0 2vh white;
+}
+
+
+div#thirdInnerDiv{
+	height: 75vh;
+	position: relative;
+	overflow: hidden;
+	margin: 0 auto;
+	width: 80vw;
+	max-width: 60rem;
+}
+
+div#stringCoverDiv{
+	position: relative;
+	z-index: 2;
+	height: 75vh;
+	box-shadow: 0vh -20vh 10vh white inset;
+}
+
+div#stringContentDiv{		
+	position: relative;
+	z-index: 1;
+	margin-top: -75vh;
+	height: 75vh;
+	border-radius: 5vw 5vw 0 0;
+	padding: 1.5vw 1.5vw 0 1.5vw;
+	border-top: 3px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+div#fullStringDiv{
+	width: 100%;
+	line-height: 1.2;
+	transition-property: line-height, width;
+	transition-duration: 3200ms, 4500ms;
+	transition-delay: 350ms, 1150ms;
+	-webkit-transition-property: line-height, width; /* Safari */
+	-webkit-transition-duration: 3200ms, 4500ms; /* Safari */
+	-webkit-transition-delay: 350ms, 1150ms; /* Safari */
+}
+
+span#fullStringSpan{
+	word-break: break-all;
+	word-wrap: break-word;
+	color: rgba(0, 0, 0, 0.75);
+	transition-property: color;
+	transition-duration: 2750ms;
+	transition-delay: 150ms;
+	-webkit-transition-property: color; /* Safari */
+	-webkit-transition-duration: 2750ms; /* Safari */
+	-webkit-transition-delay: 150ms; /* Safari */
+}
+
+div#secondInnerDiv:focus-within ~ div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv, div#probDisplayDiv:hover + div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv, div#stringCoverDiv:hover + div#stringContentDiv > div#fullStringDiv{
+	width:0px;
+	line-height:0;
+}
+
+span.letter{
+	color: rgba(0, 0, 0, 0.75);
+	transition-property: color;
+	transition-duration: 750ms;
+	-webkit-transition-property: color; /* Safari */
+	-webkit-transition-duration: 750ms; /* Safari */
+}
+
+span.selected{
+	color: red;
+}
+
+div#secondInnerDiv:focus-within ~ div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv > span#fullStringSpan, div#secondInnerDiv:focus-within ~ div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv > span#fullStringSpan > span.unselected, div#probDisplayDiv:hover + div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv > span#fullStringSpan, div#probDisplayDiv:hover + div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv > span#fullStringSpan > span.unselected, div#stringCoverDiv:hover + div#stringContentDiv > div#fullStringDiv > span#fullStringSpan, div#stringCoverDiv:hover + div#stringContentDiv > div#fullStringDiv > span#fullStringSpan > span.unselected{
+	color: rgba(0, 0, 0, 0.0);
+}
