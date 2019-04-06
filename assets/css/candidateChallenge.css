@@ -4,6 +4,11 @@ input,div{
 	font-size: calc(1rem + 1.5vmin);
 }
 
+#firstInnerDiv, #secondInnerDiv{
+	margin: 0 auto;
+	max-width: 75rem;	
+}
+	
 div#mainDiv{
 	margin: 10vh;
 }
@@ -29,10 +34,17 @@ input#letterToLookup{
 	width: 1em;
 }
 
+span#stringTitleSpan{
+	text-decoration-line: underline;
+	text-decoration-style: solid;
+	display: block;
+	margin-bottom: -3vh;
+}
+  
 div#probDisplayDiv{
 	border-radius: 3vh;
 	background: #feeaea;
-	margin: 2vh auto;
+	margin: -.5rem auto 4vh auto;
 	padding: 5vh 0vh;
 	width: 12em;
 	font-weight: bold;
@@ -42,7 +54,7 @@ div#probDisplayDiv{
 
 div#probDisplayDiv:hover{
 	color: #4f474f;
-	box-shadow: 0 2vh white;
+	box-shadow: 0 0 .3rem .3rem #fbb7b7
 }
 
 
@@ -81,7 +93,7 @@ div#fullStringDiv{
 	transition-duration: 3200ms, 4500ms;
 	transition-delay: 350ms, 1150ms;
 	-webkit-transition-property: line-height, width; /* Safari */
-	-webkit-transition-duration: 3200ms, 4500ms; /* Safari */
+	-webkit-transition-duration: 3200ms, 4250ms; /* Safari */
 	-webkit-transition-delay: 350ms, 1150ms; /* Safari */
 }
 
@@ -90,11 +102,11 @@ span#fullStringSpan{
 	word-wrap: break-word;
 	color: rgba(0, 0, 0, 0.75);
 	transition-property: color;
-	transition-duration: 2750ms;
-	transition-delay: 150ms;
+	transition-duration: 750ms;
+	transition-delay: 250ms;
 	-webkit-transition-property: color; /* Safari */
-	-webkit-transition-duration: 2750ms; /* Safari */
-	-webkit-transition-delay: 150ms; /* Safari */
+	-webkit-transition-duration: 750ms; /* Safari */
+	-webkit-transition-delay: 250ms; /* Safari */
 }
 
 div#secondInnerDiv:focus-within ~ div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv, div#probDisplayDiv:hover + div#thirdInnerDiv > div#stringContentDiv > div#fullStringDiv, div#stringCoverDiv:hover + div#stringContentDiv > div#fullStringDiv{
