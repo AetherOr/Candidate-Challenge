@@ -179,8 +179,8 @@ function updateFreqDist(maxNum) {
 	}
 
 	
-	//update fullStringDiv with a string tailor-made for display -- using the full combinedIntegerString string would be a lot of overhead, so we'll just take the first 1500 letters
-	document.getElementById("fullStringSpan").innerHTML = Array.prototype.map.call(combinedIntegerString.slice(0,1500), i => ('<span class="letter">' + i + '</span>'))
+	//update fullStringDiv with a string tailor-made for display -- using the full combinedIntegerString string would be a lot of overhead, so we'll just take the first 2500 letters
+	document.getElementById("fullStringSpan").innerHTML = Array.prototype.map.call(combinedIntegerString.slice(0,2500), i => ('<span class="letter">' + i + '</span>'))
 	
 	//by updating this now, we minimized how often this task is repeated
 	letterClass = document.querySelectorAll(".letter");
