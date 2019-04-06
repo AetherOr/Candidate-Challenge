@@ -10,7 +10,12 @@ input,div{
 }
 	
 div#mainDiv{
-	margin: 10vh;
+    width: 85%;
+    margin: auto;
+}
+
+#firstInnerDiv{
+	margin-top:5vh;
 }
 
 div.inputDiv{
